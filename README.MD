@@ -14,7 +14,7 @@ Members | Tasks
 Henry J. | Backend, Documentation, Diagrams
 ZiHao Y. | Diagrams, Documentation, Backend
 
-Video Demo Link :
+Video Demo Link : https://youtu.be/E3pVlVFVzkE
 
 # Submission Details
 - All of the non code-related deliverables (Documentation and Diagrams) are in the documentation folder.

@@ -20,6 +20,7 @@ Video Demo Link :
 - All of the non code-related deliverables (Documentation and Diagrams) are in the documentation folder.
 - Implementation of the Fitness Club Management System is in the Server folder.
 - The database scripts are present in the "Scripts" folder.
-- open pgAdmin
+- open pgAdmin, create the database and name it "health_club_system".
+- Execute the scripts by navigating to the query tool in "health_club_system" and entering the sql queries 
 - To run, cd into the "Server" folder on your terminal and "npm install" or "npm i"
 - Feel free to test the functions for the members, trainers, or the admin

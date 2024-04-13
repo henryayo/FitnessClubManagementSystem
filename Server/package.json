@@ -6,7 +6,7 @@
     "start": "node menu.js"
   },
   "dependencies": {
-    "inquirer": "^9.2.17",
+    "inquirer": "^9.2.18",
     "pg": "^8.11.5"
   }
 }

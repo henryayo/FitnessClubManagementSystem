@@ -60,6 +60,58 @@ const updateProfile = async () => {
   }
 };
 
+const deRegisterMember = async () => {
+  const membersQuery = "SELECT memberId, CONCAT(firstName, ' ', lastName) AS memberName FROM members ORDER BY firstName, lastName ASC";
+  const membersResult = await query(membersQuery);
+  if (membersResult.rows.length === 0) {
+    console.log("No members found.");
+    return;
+  }
+
+  const memberChoices = membersResult.rows.map((member) => ({
+    name: member.membername,
+    value: member.memberid,
+  }));
+
+  const memberIdPrompt = await inquirer.prompt([
+    {
+      name: "memberId",
+      type: "list",
+      message: "Select your name to deregister:",
+      choices: memberChoices,
+    },
+  ]);
+
+  const memberId = memberIdPrompt.memberId;
+
+  const confirmDelete = await inquirer.prompt([
+    {
+      type: "confirm",
+      name: "confirm",
+      message: "Are you sure you want to delete your account? This cannot be undone.",
+      default: false,
+    },
+  ]);
+
+  if (!confirmDelete.confirm) {
+    console.log("Account deletion cancelled.");
+    return;
+  }
+
+  const deleteQuery = "DELETE FROM members WHERE memberId = $1 RETURNING memberId;";
+  try {
+    const { rows } = await query(deleteQuery, [memberId]);
+    if (rows.length > 0) {
+      console.log("Account deleted successfully.");
+    } else {
+      console.log("Failed to delete account.");
+    }
+  } catch (error) {
+    console.error(`Error deleting account: ${error.message}`);
+  }
+};
+
+
 const viewDashboard = async () => {
   const membersQuery = "SELECT memberId, CONCAT(firstName, ' ', lastName) AS memberName FROM members ORDER BY firstName, lastName ASC";
   const membersResult = await query(membersQuery);
@@ -500,6 +552,7 @@ const memberMenu = async () => {
       choices: [
         "Register",
         "Update Profile",
+        "Delete Account",
         "View Dashboard",
         "View Scheduled Session",
         "Schedule Session",
@@ -519,6 +572,9 @@ const memberMenu = async () => {
       break;
     case "Update Profile":
       await updateProfile();
+      break;
+    case "Delete Account":
+      await deRegisterMember();
       break;
     case "View Dashboard":
       await viewDashboard();
